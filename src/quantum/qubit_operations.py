@@ -55,9 +55,3 @@ def measure_qubit_in_basis(qc, basis):
         qc.h(0)
     qc.measure(0, 0) # 0 is the index of the qubit, 0 is the index of the classical bit
     return qc
-
-
-
-
-
-

@@ -18,19 +18,20 @@ def compare_bases(a_bases, b_bases):
     return matching_bases
 
 
-def check_errors(a_results, b_results, matching_bases):
+def check_errors(a_key, b_key, check_bits):
     """
     Check for errors or eavesdropping by comparing the results obtained by Alice and Bob.
 
     Args:
-        a_results (list): List of qubit values obtained by Alice.
-        b_results (list): List of qubit values obtained by Bob.
-        matching_bases (list): List of indices where Alice and Bob used the same basis.
+        a_key (list): List of qubit values obtained by Alice.
+        b_key (list): List of qubit values obtained by Bob.
+        check_bits (list): List of keys indeces to check errors .
 
     Returns:
         bool: True if no errors or eavesdropping detected, False otherwise.
     """
-    for i in matching_bases:
-        if a_results[i] != b_results[i]:
+    for i in check_bits:
+        if a_key[i] != b_key[i]:
+            print("Error detected in the", i, "th bit.")
             return False
     return True

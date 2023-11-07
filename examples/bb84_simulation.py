@@ -24,21 +24,23 @@ def bb84_protocol(num_qubits):
         backend = Aer.get_backend('qasm_simulator')
         result = execute(measured_qubit, backend, shots=1).result()
         counts = result.get_counts(measured_qubit)
-        measured_bit = max(counts, key=counts.get)
+        measured_bit = max(counts, key=counts.get) 
         bob_measurements.append(int(measured_bit))
 
     # Step 4: Alice and Bob compare their bases
     matching_bases = compare_bases(alice_bases, bob_bases)
+    print("Matching bases: ", matching_bases)
 
     # Step 5: Alice and Bob extract the key
     alice_key = [alice_bits[i] for i in matching_bases]
     bob_key = [bob_measurements[i] for i in matching_bases]
 
     # Optionally, check for errors in the key
-    #error_free = check_errors(alice_key, bob_key, matching_bases)
-    #if not error_free:
-    #    print("Error detected in the key. Abort the protocol.")
-    #    return None, None
+    error_free = check_errors(alice_key, bob_key, [0,1,2]) #Check first 3 bits
+    if not error_free:
+        print("Error detected in the key. Abort the protocol.")
+    if error_free:
+        print("No errors detected in the key.")
 
     return alice_key, bob_key
 
