@@ -4,9 +4,6 @@ import sys
 sys.path.append('C:/Users/6QV78LA_1909/OneDrive/Documents/Visual Studio/Quantum-Key-Distribution-BB84')  # Ensure src is in the PYTHONPATH
 from src.quantum.qubit_operations import random_basis, prepare_single_qubit_circuit, measure_qubit_in_basis
 from src.classical.key_validation import compare_bases, check_errors
-
-from src.quantum.qubit_operations import random_basis, prepare_single_qubit_circuit, measure_qubit_in_basis
-from src.classical.key_validation import compare_bases, check_errors
 from qiskit import Aer, execute
 import random
 

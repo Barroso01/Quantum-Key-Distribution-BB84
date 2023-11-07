@@ -27,7 +27,6 @@ def simulate_noise_measurement(qc):
     plt.show()
     return counts
 
-
 def eavesdrop(qc, qubit_index = 0):
     """Simulate an eavesdropper measuring a qubit."""
     eavesdropper_basis = random.choice(['X', 'Z'])
