@@ -41,7 +41,7 @@ pip install -r requirements.txt
 The examples directory contains a file that simulates the BB84 protocol: bb84_simulation.py. Run the file to see the protocol in action!
 
 ## Author
-Eng. Eduardo Barroso 
+ER. Eduardo Barroso 
 
 
 
