@@ -1,3 +1,4 @@
+# key_validation.py
 # FILEPATH: /c:/Users/6QV78LA_1909/OneDrive/Documents/Visual Studio/Quantum-Key-Distribution-BB84/src/classical/key_validation
 
 def compare_bases(a_bases, b_bases):
@@ -16,7 +17,6 @@ def compare_bases(a_bases, b_bases):
         if a_bases[i] == b_bases[i]:
             matching_bases.append(i)
     return matching_bases
-
 
 def check_errors(a_key, b_key, check_bits):
     """

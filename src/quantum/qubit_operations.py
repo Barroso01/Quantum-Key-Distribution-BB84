@@ -1,5 +1,9 @@
-# Functions containing operations of the bb84 protocol 
+# qubit_operations.py
+# FILEPATH: /c:/Users/6QV78LA_1909/OneDrive/Documents/Visual Studio/Quantum-Key-Distribution-BB84/src/quantum/qubit_operations.py
+# Standard library imports
 import random
+
+# Third party imports
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer, IBMQ
 from qiskit.visualization import plot_histogram
 

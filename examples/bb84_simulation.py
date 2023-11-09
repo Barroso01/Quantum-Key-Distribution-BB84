@@ -1,13 +1,37 @@
 # bb84_simulation.py
-# import functions in src
-import sys
-sys.path.append('C:/Users/6QV78LA_1909/OneDrive/Documents/Visual Studio/Quantum-Key-Distribution-BB84')  # Ensure src is in the PYTHONPATH
-from src.quantum.qubit_operations import random_basis, prepare_single_qubit_circuit, measure_qubit_in_basis
-from src.classical.key_validation import compare_bases, check_errors
-from qiskit import Aer, execute
+# FILEPATH: /c:/Users/6QV78LA_1909/OneDrive/Documents/Visual Studio/Quantum-Key-Distribution-BB84/examples/bb84_simulation.py
+# Standard library imports
+import numpy as np
+import matplotlib.pyplot as plt
 import random
+import sys
 
-def bb84_protocol(num_qubits):
+# Third party imports
+from qiskit import Aer, IBMQ, execute
+from qiskit_ibm_provider import IBMProvider
+
+# Local application imports
+sys.path.append("C:/Users/6QV78LA_1909/OneDrive/Documents/Visual Studio/Quantum-Key-Distribution-BB84") #Path to src folder
+from src.quantum.qubit_operations import random_basis, prepare_single_qubit_circuit, measure_qubit_in_basis # import functions in src
+from src.quantum.quantum_channels import simulate_noise_measurement, introduce_errors, evesdropper
+from src.classical.key_validation import compare_bases, check_errors
+
+def bb84_protocol(num_qubits, backend =  Aer.get_backend('qasm_simulator'), noise_measurement = 0, evesdrop = 0, error_rate = 0):
+    """
+    Simulate the BB84 protocol for quantum key distribution. The user can choose backend, noise, evesdropper and error rate. 
+
+    Args:
+        num_qubits (int): The number of qubits to be used for the key.
+        backend (str): The backend to be used for the simulation.
+        noise_measurement (bool): Whether to simulate noise on the measurement.
+        evesdrop (bool): Whether to simulate an eavesdropper.
+        error_rate (float): The probability (between 0/1) of an error being introduced to the system before recipient measurement.
+
+    Returns:
+        list: Alice's key.
+        list: Bob's key.
+    
+    """
     # Step 1: Alice generates her random bits and bases
     alice_bits = [random.choice([0, 1]) for _ in range(num_qubits)]
     alice_bases = random_basis(num_qubits)
@@ -18,12 +42,24 @@ def bb84_protocol(num_qubits):
     # Step 3: Bob generates his random bases and measures the received qubits
     bob_bases = random_basis(num_qubits)
     bob_measurements = []
+    eve_measurements = []
     for qubit, basis in zip(alice_qubits, bob_bases):
+        
+        if evesdrop == 1: # Eavesdropper
+            qubit, eve_bit  = evesdropper(qubit)
+            eve_measurements.append(eve_bit)
+
+        if error_rate > 0:
+            qubit = introduce_errors(qubit, error_rate)
+
         measured_qubit = measure_qubit_in_basis(qubit, basis)
-        # Simulate the measurement
-        backend = Aer.get_backend('qasm_simulator')
-        result = execute(measured_qubit, backend, shots=1).result()
-        counts = result.get_counts(measured_qubit)
+
+        if noise_measurement == 1:
+            counts = simulate_noise_measurement(measured_qubit, backend)
+        else:
+            result = execute(measured_qubit, backend, shots =1).result()
+            counts = result.get_counts()
+
         measured_bit = max(counts, key=counts.get) 
         bob_measurements.append(int(measured_bit))
 
@@ -44,11 +80,18 @@ def bb84_protocol(num_qubits):
 
     return alice_key, bob_key
 
+# Access the IBM Quantum systems
+#IBMProvider.save_account('API_Key', overwrite = True)
+#provider = IBMProvider()
+#print("Stored account: ", provider.active_account())
+#backend = provider.get_backend('ibmq_qasm_simulator') # IBM Quantum Experience backend
+backend = Aer.get_backend('qasm_simulator') # Aer Simulator backend
+
 # Number of qubits to be used for the key
 num_qubits = 10
 
 # Run the BB84 protocol simulation
-alice_key, bob_key = bb84_protocol(num_qubits)
+alice_key, bob_key = bb84_protocol(num_qubits,backend,0,1,0.1)
 
 # Output the results
 print("Alice's key: ", alice_key)
