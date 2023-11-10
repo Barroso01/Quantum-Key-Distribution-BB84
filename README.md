@@ -40,8 +40,15 @@ pip install -r requirements.txt
 
 The examples directory contains a file that simulates the BB84 protocol: bb84_simulation.py. Run the file to see the protocol in action!
 
+Notes:
+1. ```bash bb84_protocol(num_qubits,backend,1,0,0) ```  configuration has errors with the backend noise_model
+Further Implementations:
+3. check_errors() should return the indices where the errors are found, not just the first mismatch.
+4. ¿what analysis can be done to characterize the efficiency of the bb84 protocol?
+5. more robust noise models. 
+
 ## Author
-Eng. Eduardo Barroso 
+ER. Eduardo Barroso 
 
 
 
