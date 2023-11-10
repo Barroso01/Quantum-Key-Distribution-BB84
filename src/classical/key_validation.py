@@ -30,8 +30,13 @@ def check_errors(a_key, b_key, check_bits):
     Returns:
         bool: True if no errors or eavesdropping detected, False otherwise.
     """
+    errors_inx = []
     for i in check_bits:
         if a_key[i] != b_key[i]:
-            print("Error detected in the", i, "th bit.")
+            errors_inx.append(i)
+
+    print("Errors in indeces: ", errors_inx)
+
+    if len(errors_inx) > 0:
             return False
     return True
