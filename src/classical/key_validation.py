@@ -21,6 +21,7 @@ def compare_bases(a_bases, b_bases):
 def check_errors(a_key, b_key, check_bits):
     """
     Check for errors or eavesdropping by comparing the results obtained by Alice and Bob.
+    Prints indices where errors were detected.
 
     Args:
         a_key (list): List of qubit values obtained by Alice.
@@ -29,6 +30,7 @@ def check_errors(a_key, b_key, check_bits):
 
     Returns:
         bool: True if no errors or eavesdropping detected, False otherwise.
+        list: List of indices where Alice and Bob had different results.
     """
     errors_inx = []
     for i in check_bits:
@@ -38,5 +40,5 @@ def check_errors(a_key, b_key, check_bits):
     print("Errors in indeces: ", errors_inx)
 
     if len(errors_inx) > 0:
-            return False
-    return True
+            return errors_inx, False
+    return errors_inx, True

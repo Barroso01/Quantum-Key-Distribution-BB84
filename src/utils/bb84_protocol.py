@@ -78,6 +78,6 @@ def bb84_protocol(num_qubits, backend =  Aer.get_backend('qasm_simulator'), nois
     bob_key = [bob_measurements[i] for i in matching_bases]
 
     # Optionally, check for errors in the key
-    check_errors(alice_key, bob_key, list(range(len(alice_key))))
+    #check_errors(alice_key, bob_key, list(range(len(alice_key))))
 
     return alice_key, bob_key, eve_measurements
